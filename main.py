@@ -63,14 +63,11 @@ def progress(current, total, message, type):
 
 
 # start command
-from pyrogram import InlineKeyboardButton, InlineKeyboardMarkup
-
 @bot.on_message(filters.command(["start"]))
 def send_start(client, message):
     reply_markup = InlineKeyboardMarkup([
         [InlineKeyboardButton("Source", callback_data="source")],
         [InlineKeyboardButton("Developer", url="https://t.me/r4h4t_69")],
-        [InlineKeyboardButton("Other Button", callback_data="other_button")],
         # Add more buttons as needed
     ])
     bot.send_message(
@@ -96,11 +93,6 @@ def start_button(client, callback_query):
         reply_to_message_id=callback_query.message.message_id
     )
     callback_query.message.delete()
-
-@bot.on_callback_query(filters.regex('^other_button$'))
-def other_button(client, callback_query):
-    # Handle logic for other button if needed
-    pass
 
 
 
