@@ -66,7 +66,7 @@ def progress(current, total, message, type):
 @bot.on_message(filters.command(["start"]))
 def send_start(client: pyrogram.client.Client, message: pyrogram.types.messages_and_media.message.Message):
     reply_markup = InlineKeyboardMarkup([
-        [InlineKeyboardButton("🌐 Source⚙️", callback_data="source")],
+        [InlineKeyboardButton("🌐 Source", callback_data="source")],
         [InlineKeyboardButton("Developer", url="https://t.me/r4h4t_69")]
     ])
     bot.send_message(
@@ -83,7 +83,7 @@ def handle_source_button_click(client: pyrogram.Client, callback_query: pyrogram
         [InlineKeyboardButton("Back", callback_data="back")]
     ])
     callback_query.edit_message_text(
-        "This Bot's Source Code Is Private",
+        "Tʜɪs Bᴏᴛ's Sᴏᴜʀᴄᴇ Cᴏᴅᴇ Is Pʀɪᴠᴀᴛᴇ",
         reply_markup=reply_markup
     )
 
