@@ -65,8 +65,27 @@ def progress(current, total, message, type):
 # start command
 @bot.on_message(filters.command(["start"]))
 def send_start(client: pyrogram.client.Client, message: pyrogram.types.messages_and_media.message.Message):
-	bot.send_message(message.chat.id, f"__👋 Hi **{message.from_user.mention}**, I am Save Restricted Bot, I can send you restricted content by it's post link__\n\n{USAGE}",
-	reply_markup=InlineKeyboardMarkup([[ InlineKeyboardButton("🌐 Source Code", "Source Code Is Private.")]]), reply_to_message_id=message.id)
+    text = f"👋 Hi **{message.from_user.mention}**, I am Save Restricted Bot. I can send you restricted content by its post link.\n\n{USAGE}"
+
+    keyboard = InlineKeyboardMarkup([
+        [InlineKeyboardButton("🌐 Source", callback_data="source")],
+        [InlineKeyboardButton("Developer", url="https://t.me/r4h4t_69")]
+    ])
+
+    bot.send_message(message.chat.id, text, reply_markup=keyboard, reply_to_message_id=message.id)
+
+@bot.on_callback_query()
+def button(bot: pyrogram.Client, callback_query: pyrogram.types.CallbackQuery):
+    if callback_query.data == "source":
+        source_keyboard = InlineKeyboardMarkup([
+            [InlineKeyboardButton("This Source Code Is Private", callback_data="private_source")],
+            [InlineKeyboardButton("📩 Ask Admin For Source", url="https://t.me/r4h4t_69"), InlineKeyboardButton("Back", callback_data="start")]
+        ])
+        bot.send_message(callback_query.message.chat.id, "Choose an option:", reply_markup=source_keyboard)
+    elif callback_query.data == "private_source":
+        bot.send_message(callback_query.message.chat.id, "This Source Code Is Private")
+    elif callback_query.data == "start":
+        send_start(bot, callback_query.message)
 
 
 @bot.on_message(filters.text)
