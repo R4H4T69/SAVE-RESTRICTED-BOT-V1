@@ -1,4 +1,4 @@
-import pyrogram
+iimport pyrogram
 from pyrogram import Client, filters
 from pyrogram.errors import UserAlreadyParticipant, InviteHashExpired, UsernameNotOccupied
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -64,28 +64,33 @@ def progress(current, total, message, type):
 
 # start command
 @bot.on_message(filters.command(["start"]))
-def send_start(client: pyrogram.client.Client, message: pyrogram.types.messages_and_media.message.Message):
-    text = f"👋 Hi **{message.from_user.mention}**, I am Save Restricted Bot. I can send you restricted content by its post link.\n\n{USAGE}"
-
-    keyboard = InlineKeyboardMarkup([
-        [InlineKeyboardButton("🌐 Source", callback_data="source")],
-        [InlineKeyboardButton("Developer", url="https://t.me/r4h4t_69")]
+def send_start(client, message):
+    reply_markup = InlineKeyboardMarkup([
+        [InlineKeyboardButton("Source", callback_data="source")],
+        [InlineKeyboardButton("Developer", url="https://t.me/r4h4t_69")],
+        [InlineKeyboardButton("Other Button", callback_data="other_button")],
+        # Add more buttons as needed
     ])
+    bot.send_message(
+        message.chat.id,
+        f"👋 Hi **{message.from_user.mention}**, I am Save Restricted Bot. I can send you restricted content by its post link.\n\n{USAGE}",
+        reply_markup=reply_markup,
+        reply_to_message_id=message.message_id
+    )
 
-    bot.send_message(message.chat.id, text, reply_markup=keyboard, reply_to_message_id=message.id)
+@bot.on_callback_query(filters.regex('^source$'))
+def source_button(client, callback_query):
+    reply_markup = InlineKeyboardMarkup([
+        [InlineKeyboardButton("Ask Owner for Bot's Source", url="https://t.me/r4h4t_69")],
+        [InlineKeyboardButton("Back", callback_data="start")]
+    ])
+    callback_query.message.edit_text("This Bot's Source Code Is Private", reply_markup=reply_markup)
 
-@bot.on_callback_query()
-def button(bot: pyrogram.Client, callback_query: pyrogram.types.CallbackQuery):
-    if callback_query.data == "source":
-        bot.send_message(callback_query.message.chat.id, "This Source Code Is Private")
-
-        source_keyboard = InlineKeyboardMarkup([
-            [InlineKeyboardButton("Ask Admin For Source", url="https://t.me/r4h4t_69")],
-            [InlineKeyboardButton("Back", callback_data="start")]
-        ])
-        bot.send_message(callback_query.message.chat.id, reply_markup=source_keyboard)
-    elif callback_query.data == "start":
-        send_start(bot, callback_query.message, reply_to_message_id=message.id)
+@bot.on_callback_query(filters.regex('^other_button$'))
+def other_button(client, callback_query):
+    # Handle logic for other button if needed
+    pass
+	
 	    
 
 
