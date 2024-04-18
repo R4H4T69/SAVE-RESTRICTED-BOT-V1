@@ -64,37 +64,33 @@ def progress(current, total, message, type):
 
 # start command
 @bot.on_message(filters.command(["start"]))
-def send_start(client, message):
+def send_start(client: pyrogram.client.Client, message: pyrogram.types.messages_and_media.message.Message):
     reply_markup = InlineKeyboardMarkup([
-        [InlineKeyboardButton("Source", callback_data="source")],
-        [InlineKeyboardButton("Developer", url="https://t.me/r4h4t_69")],
-        # Add more buttons as needed
+        [InlineKeyboardButton("🌐 Source⚙️", callback_data="source")],
+        [InlineKeyboardButton("Developer", url="https://t.me/r4h4t_69")]
     ])
     bot.send_message(
         message.chat.id,
-        f"👋 Hi **{message.from_user.mention}**, I am Save Restricted Bot. I can send you restricted content by its post link.\n\n{USAGE}",
+        f"👋 Hi **{message.from_user.mention}**, I am Save Restricted Bot, I can send you restricted content by its post link\n\n{USAGE}",
         reply_markup=reply_markup,
         reply_to_message_id=message.id
     )
 
-@bot.on_callback_query(filters.regex('^source$'))
-def source_button(client, callback_query):
+@bot.on_callback_query(filters.regex("^source$"))
+def handle_source_button_click(client: pyrogram.Client, callback_query: pyrogram.types.CallbackQuery):
     reply_markup = InlineKeyboardMarkup([
-        [InlineKeyboardButton("Ask Owner for Bot's Source", url="https://t.me/r4h4t_69")],
-        [InlineKeyboardButton("Back", callback_data="start")]
+        [InlineKeyboardButton("Ask Owner For Bot's Source", url="https://t.me/r4h4t_69")],
+        [InlineKeyboardButton("Back", callback_data="back")]
     ])
-    callback_query.message.edit_text("This Bot's Source Code Is Private", reply_markup=reply_markup)
-
-@bot.on_callback_query(filters.regex('^start$'))
-def start_button(client, callback_query):
-    bot.send_message(
-        callback_query.message.chat.id,
-        f"👋 Hi **{callback_query.message.from_user.mention}**, I am Save Restricted Bot. I can send you restricted content by its post link.\n\n{USAGE}",
-        reply_to_message_id=callback_query.message.message_id
+    callback_query.edit_message_text(
+        "This Bot's Source Code Is Private",
+        reply_markup=reply_markup
     )
-    callback_query.message.delete()
 
-
+@bot.on_callback_query(filters.regex("^back$"))
+def handle_back_button_click(client: pyrogram.Client, callback_query: pyrogram.types.CallbackQuery):
+    send_start(client, callback_query.message)
+			
 
 @bot.on_message(filters.text)
 def save(client: pyrogram.client.Client, message: pyrogram.types.messages_and_media.message.Message):
