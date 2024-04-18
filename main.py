@@ -68,7 +68,7 @@ def send_start(client, message):
     reply_markup = InlineKeyboardMarkup([
         [InlineKeyboardButton("Source", callback_data="source")],
         [InlineKeyboardButton("Developer", url="https://t.me/r4h4t_69")],
-        [InlineKeyboardButton("Other Button", callback_data="other_button")],
+        
         # Add more buttons as needed
     ])
     bot.send_message(
