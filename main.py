@@ -1,4 +1,4 @@
-iimport pyrogram
+import pyrogram
 from pyrogram import Client, filters
 from pyrogram.errors import UserAlreadyParticipant, InviteHashExpired, UsernameNotOccupied
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -85,12 +85,6 @@ def source_button(client, callback_query):
         [InlineKeyboardButton("Back", callback_data="start")]
     ])
     callback_query.message.edit_text("This Bot's Source Code Is Private", reply_markup=reply_markup)
-
-@bot.on_callback_query(filters.regex('^other_button$'))
-def other_button(client, callback_query):
-    # Handle logic for other button if needed
-    pass
-	
 	    
 
 
