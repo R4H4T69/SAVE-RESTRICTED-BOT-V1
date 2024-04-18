@@ -63,18 +63,21 @@ def progress(current, total, message, type):
 
 
 # start command
+from pyrogram import InlineKeyboardButton, InlineKeyboardMarkup
+
 @bot.on_message(filters.command(["start"]))
 def send_start(client, message):
     reply_markup = InlineKeyboardMarkup([
         [InlineKeyboardButton("Source", callback_data="source")],
         [InlineKeyboardButton("Developer", url="https://t.me/r4h4t_69")],
-	  # Add more buttons as needed
+        [InlineKeyboardButton("Other Button", callback_data="other_button")],
+        # Add more buttons as needed
     ])
     bot.send_message(
         message.chat.id,
         f"👋 Hi **{message.from_user.mention}**, I am Save Restricted Bot. I can send you restricted content by its post link.\n\n{USAGE}",
         reply_markup=reply_markup,
-        reply_to_message_id=message.id  # Corrected line
+        reply_to_message_id=message.id
     )
 
 @bot.on_callback_query(filters.regex('^source$'))
@@ -84,6 +87,21 @@ def source_button(client, callback_query):
         [InlineKeyboardButton("Back", callback_data="start")]
     ])
     callback_query.message.edit_text("This Bot's Source Code Is Private", reply_markup=reply_markup)
+
+@bot.on_callback_query(filters.regex('^start$'))
+def start_button(client, callback_query):
+    bot.send_message(
+        callback_query.message.chat.id,
+        f"👋 Hi **{callback_query.message.from_user.mention}**, I am Save Restricted Bot. I can send you restricted content by its post link.\n\n{USAGE}",
+        reply_to_message_id=callback_query.message.message_id
+    )
+    callback_query.message.delete()
+
+@bot.on_callback_query(filters.regex('^other_button$'))
+def other_button(client, callback_query):
+    # Handle logic for other button if needed
+    pass
+
 
 
 @bot.on_message(filters.text)
