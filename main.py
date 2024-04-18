@@ -77,13 +77,13 @@ def send_start(client: pyrogram.client.Client, message: pyrogram.types.messages_
 @bot.on_callback_query()
 def button(bot: pyrogram.Client, callback_query: pyrogram.types.CallbackQuery):
     if callback_query.data == "source":
-        source_keyboard = InlineKeyboardMarkup([
-            [InlineKeyboardButton("This Source Code Is Private", callback_data="private_source")],
-            [InlineKeyboardButton("📩 Ask Admin For Source", url="https://t.me/r4h4t_69"), InlineKeyboardButton("Back", callback_data="start")]
-        ])
-        bot.send_message(callback_query.message.chat.id, "Choose an option:", reply_markup=source_keyboard)
-    elif callback_query.data == "private_source":
         bot.send_message(callback_query.message.chat.id, "This Source Code Is Private")
+
+        source_keyboard = InlineKeyboardMarkup([
+            [InlineKeyboardButton("Ask Admin For Source", url="https://t.me/r4h4t_69")],
+            [InlineKeyboardButton("Back", callback_data="start")]
+        ])
+        bot.send_message(callback_query.message.chat.id, reply_markup=source_keyboard)
     elif callback_query.data == "start":
         send_start(bot, callback_query.message)
 
