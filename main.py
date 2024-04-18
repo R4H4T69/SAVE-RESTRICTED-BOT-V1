@@ -75,8 +75,7 @@ def send_start(client, message):
         message.chat.id,
         f"👋 Hi **{message.from_user.mention}**, I am Save Restricted Bot. I can send you restricted content by its post link.\n\n{USAGE}",
         reply_markup=reply_markup,
-        reply_to_message_id=message.message_id
-    )
+        reply_to_message_id=message.message_id)
 
 @bot.on_callback_query(filters.regex('^source$'))
 def source_button(client, callback_query):
@@ -85,7 +84,6 @@ def source_button(client, callback_query):
         [InlineKeyboardButton("Back", callback_data="start")]
     ])
     callback_query.message.edit_text("This Bot's Source Code Is Private", reply_markup=reply_markup)
-	    
 
 
 @bot.on_message(filters.text)
