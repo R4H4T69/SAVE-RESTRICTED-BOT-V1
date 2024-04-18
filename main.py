@@ -68,14 +68,14 @@ def send_start(client, message):
     reply_markup = InlineKeyboardMarkup([
         [InlineKeyboardButton("Source", callback_data="source")],
         [InlineKeyboardButton("Developer", url="https://t.me/r4h4t_69")],
-        
-        # Add more buttons as needed
+	  # Add more buttons as needed
     ])
     bot.send_message(
         message.chat.id,
         f"👋 Hi **{message.from_user.mention}**, I am Save Restricted Bot. I can send you restricted content by its post link.\n\n{USAGE}",
         reply_markup=reply_markup,
-        reply_to_message_id=message.message_id)
+        reply_to_message_id=message.id  # Corrected line
+    )
 
 @bot.on_callback_query(filters.regex('^source$'))
 def source_button(client, callback_query):
